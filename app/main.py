@@ -27,7 +27,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+#
 # setup database connection
 # cursor_factory=RealDictCursor is to get the column names in the response
 # create while loop to continuously try to connect to the database
