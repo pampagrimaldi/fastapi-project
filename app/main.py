@@ -8,6 +8,8 @@ from psycopg2.extras import RealDictCursor
 # time library
 import time
 from .routers import posts
+from .config import settings
+
 
 # # creates all the tables in the database
 # models.Base.metadata.create_all(bind=engine)
@@ -18,7 +20,6 @@ app = FastAPI()
 # check with Guy on origins
 origins = ["https://www.google.com"]
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -27,16 +28,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # setup database connection
 # cursor_factory=RealDictCursor is to get the column names in the response
 # create while loop to continuously try to connect to the database
 while True:
     try:
-        conn = psycopg2.connect(host="localhost",
-                                database="fastapi",
-                                user="postgres",
-                                password="password",
+        conn = psycopg2.connect(host=settings.database_hostname,
+                                database=settings.database_name,
+                                user=settings.database_username,
+                                password=settings.database_password,
                                 cursor_factory=RealDictCursor)
         cursor = conn.cursor()
         print("Database connection established")
