@@ -1,18 +1,9 @@
 # import FastAPI and other libraries
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-# sql driver
-import psycopg2
-from psycopg2.extras import RealDictCursor
 # time library
-import time
 from .routers import posts
-from .config import settings
 
-
-# # creates all the tables in the database
-# models.Base.metadata.create_all(bind=engine)
 
 # create FastAPI instance
 app = FastAPI()
@@ -27,24 +18,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-#
-# setup database connection
-# cursor_factory=RealDictCursor is to get the column names in the response
-# create while loop to continuously try to connect to the database
-while True:
-    try:
-        conn = psycopg2.connect(host=settings.database_hostname,
-                                database=settings.database_name,
-                                user=settings.database_username,
-                                password=settings.database_password,
-                                cursor_factory=RealDictCursor)
-        cursor = conn.cursor()
-        print("Database connection established")
-        break
-    except Exception as error:
-        print("Error connecting to database")
-        print("Error: ", error)
-        time.sleep(2)
 
 # include router for posts
 app.include_router(posts.router)

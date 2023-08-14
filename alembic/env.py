@@ -19,7 +19,7 @@ config.set_main_option(
         f"{settings.database_password}@"
         f"{settings.database_hostname}:"
         f"{settings.database_port}/"
-        f"{settings.database}"
+        f"{settings.database_name}"
     )
 )
 
